@@ -29,7 +29,8 @@ A course notes template using [ILM](https://typst.app/universe/package/ilm) with
   - Same theorem environments as slides template
   - Abstract and preface sections
 
-**Usage**: 
+**Usage**:
+
 1. Update course metadata (title, author, abstract)
 2. Add references to `refs.bib`
 3. Write your content using the predefined theorem environments
@@ -46,9 +47,11 @@ A minimalist one-page note template with:
 ## Dependencies
 
 Both templates use:
+
 - `@preview/ctheorems:1.1.3` - Theorem environments
 
 Additional dependencies:
+
 - `slides.typ`: `@preview/touying:0.6.1`
 - `note.typ`: `@preview/ilm:1.4.1`
 
@@ -61,9 +64,25 @@ Additional dependencies:
    typst compile note.typ
    ```
 
+## Downloading Templates via Script
+
+You can also use the `typst-template.sh` helper script to browse and download templates from this repository without cloning it:
+
+```bash
+chmod +x typst-template.sh
+./typst-template.sh
+```
+
+Optional environment variables:
+
+- `OWNER` – GitHub username (default: `ChennoShen239`)
+- `REPO` – repository name (default: `typst_templates`)
+- `BRANCH` – branch name (default: `main`)
+- `GITHUB_TOKEN` – GitHub token to increase API rate limits (optional)
+- `CURL_OPTS` – extra options passed to `curl` (optional)
+
 ## Customization
 
 - **Colors**: Modify the `primary` color in `slides.typ` or theorem `fill` colors in both templates
 - **Fonts**: Change `font` settings in the `#set text()` commands
 - **Theme**: Adjust theme parameters in `#show: simple-theme.with()` or `#show: ilm.with()`
-
