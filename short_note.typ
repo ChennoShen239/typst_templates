@@ -1,3 +1,6 @@
+#import "@preview/ctheorems:1.1.3": *
+#show: thmrules.with(qed-symbol: $square$)
+
 #set heading(numbering: "1.")
 #set page(
   paper: "us-letter",
@@ -15,6 +18,30 @@
   it.body + [.]
 }
 
+
+
+
+#let theorem = thmbox("theorem", "Theorem", fill: red.lighten(90%), base_level: 2)
+#let proposition = thmbox("proposition", "Proposition", fill: blue.lighten(90%), base_level: 2)
+#let corollary = thmplain(
+  "corollary",
+  "Corollary",
+  titlefmt: strong,
+  base: "theorem",
+)
+#let lemma = thmbox("lemma", "Lemma", fill: orange.lighten(90%), base_level: 2)
+#let definition = thmbox("definition", "Definition", base_level: 2, fill: teal.lighten(80%))
+#let example = thmbox("example", "Example", titlefmt: strong, fill: green.lighten(90%), base_level: 2)
+
+#let proof = thmproof("proof", "Proof")
+
+
+
+
+#set math.equation(numbering: "(1)")
+
+
+
 #title[
   Some title
 ]
@@ -30,3 +57,5 @@
 
 == Example 1.1
 #lorem(100)
+
+#theorem[name of theorem][#lorem(20)]<thm:1>
