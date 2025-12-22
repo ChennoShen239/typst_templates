@@ -39,8 +39,3 @@ Environment overrides:
 - `GITHUB_TOKEN` (optional, raise rate limit)
 - `CURL_OPTS` (optional, extra curl args)
 
-## Customization
-
-- Colors: adjust `primary` in `slides.typ` or theorem fills.
-- Fonts: change `#set text(...)` settings.
-- Theme: tweak `simple-theme.with(...)` or `ilm.with(...)`.
