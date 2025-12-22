@@ -34,6 +34,15 @@ A course notes template using [ILM](https://typst.app/universe/package/ilm) with
 2. Add references to `refs.bib`
 3. Write your content using the predefined theorem environments
 
+### `short_note.typ` - One-Page Note Template
+
+A minimalist one-page note template with:
+
+- **Page setup**: US Letter, single-page numbering
+- **Headings**: Numbered, level-2 headings bold+italic with trailing period
+- **Typography**: Centered title (20pt) and author block; orange links
+- **Quick start**: Fill in title/author and content, then compile with Typst
+
 ## Dependencies
 
 Both templates use:
