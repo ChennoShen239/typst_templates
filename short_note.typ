@@ -19,19 +19,18 @@
 }
 
 
-
-
-#let theorem = thmbox("theorem", "Theorem", fill: red.lighten(90%), base_level: 2)
-#let proposition = thmbox("proposition", "Proposition", fill: blue.lighten(90%), base_level: 2)
+#let theorem = thmbox("theorem", "Theorem", fill: red.lighten(90%), base_level: 2, bodyfmt: emph)
+#let proposition = thmbox("proposition", "Proposition", fill: blue.lighten(90%), base_level: 2, bodyfmt: emph)
 #let corollary = thmplain(
   "corollary",
   "Corollary",
   titlefmt: strong,
   base: "theorem",
+  bodyfmt: emph,
 )
-#let lemma = thmbox("lemma", "Lemma", fill: orange.lighten(90%), base_level: 2)
-#let definition = thmbox("definition", "Definition", base_level: 2, fill: teal.lighten(80%))
-#let example = thmbox("example", "Example", titlefmt: strong, fill: green.lighten(90%), base_level: 2)
+#let lemma = thmbox("lemma", "Lemma", fill: orange.lighten(90%), base_level: 2, bodyfmt: emph)
+#let definition = thmbox("definition", "Definition", base_level: 2, fill: teal.lighten(80%), bodyfmt: emph)
+#let example = thmbox("example", "Example", titlefmt: strong, fill: green.lighten(90%), base_level: 2, bodyfmt: emph)
 
 #let proof = thmproof("proof", "Proof")
 
@@ -55,7 +54,10 @@
 
 #lorem(50)
 
-== Example 1.1
+== Unit 1
+
 #lorem(100)
 
 #theorem[name of theorem][#lorem(20)]<thm:1>
+
+#proof[#lorem(100)]<proof:1>
