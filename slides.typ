@@ -16,7 +16,7 @@
 )
 
 #set math.equation(numbering: "(1)")
-#set text(size: 21pt, font: "Ysabeau")
+#set text(size: 21pt,)
 
 #let theorem = thmbox("theorem", "Theorem", fill: red.lighten(90%), base_level: 2)
 #let proposition = thmbox("proposition", "Proposition", fill: blue.lighten(90%), base_level: 2)
@@ -54,3 +54,13 @@
   Focus Here!
 ]
 == Example 2
+
+#theorem[OLS][
+  #lorem(50)
+]<thm:1>
+
+
+== Example 3
+Let's refer to @thm:1
+
+#lorem(100)
