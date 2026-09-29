@@ -3,7 +3,7 @@
 #show: thmrules.with(qed-symbol: $square$)
 #show link: set text(fill: orange)
 
-#show math.equation: set text(font: "Libertinus Serif")
+#show math.equation: set text(font: "Libertinus Math")
 #set text(lang: "en", font: "Libertinus Serif")
 #show: ilm.with(
   title: [Course Name],
@@ -41,10 +41,35 @@
 
 
 
-#set math.equation(numbering: "(1)")
-#show ref: it => {
-  set text(fill: blue)
+#show heading.where(level: 1): it => {
+  // Each numbered top-level heading starts a new chapter or lecture.
+  if it.numbering != none {
+    counter(math.equation).update(0)
+  }
   it
+}
+#set math.equation(numbering: n => context {
+  numbering("(1.1)", counter(heading).get().first(), n)
+})
+#show ref: it => context {
+  set text(fill: blue)
+  let target = it.element
+  if target != none and target.func() == math.equation and it.form == "normal" {
+    // Read both counters at the cited equation, not at the reference.
+    let loc = target.location()
+    let supplement = it.supplement
+    if supplement == auto { supplement = target.supplement }
+    if type(supplement) == function { supplement = supplement(target) }
+    let prefix = if supplement == none or supplement == [] { [] } else { [#supplement~] }
+    show link: set text(fill: blue)
+    link(it.target, [#prefix#numbering(
+      "(1.1)",
+      counter(heading).at(loc).first(),
+      counter(math.equation).at(loc).first(),
+    )])
+  } else {
+    it
+  }
 }
 
 = Example Chapter
