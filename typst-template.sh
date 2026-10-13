@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 # typst-template.sh
 # Lists available Typst templates (*.typ) from a GitHub repo,
-# allows you to interactively select one and download it to the current directory—
+# allows you to interactively select one and download it to the current directory,
 # without needing to clone the whole repository.
 #
 # Usage:
@@ -20,7 +20,7 @@ set -euo pipefail
 OWNER="${OWNER:-ChennoShen239}"
 REPO="${REPO:-typst_templates}"
 BRANCH="${BRANCH:-main}"
-API_URL="https://api.github.com/repos/${OWNER}/${REPO}/contents"
+API_URL="https://api.github.com/repos/${OWNER}/${REPO}/contents?ref=${BRANCH}"
 RAW_BASE="https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}"
 CURL_OPTS="${CURL_OPTS:-}"
 
@@ -37,7 +37,7 @@ fetch_templates() {
 
   # Print available templates (*.typ), one per line
   if ! curl ${=CURL_OPTS} -fsSL "${auth_header[@]}" "$API_URL" \
-    | jq -r '.[] | select(.name | endswith(".typ")) | .name'; then
+    | jq -r '.[] | select(.name | endswith(".typ")) | select(.name != "short-note-style.typ") | .name'; then
     echo "Failed to fetch template list from GitHub API: ${API_URL}" >&2
     exit 1
   fi
@@ -51,34 +51,37 @@ choose_template() {
     exit 1
   fi
 
-  print "Select a Typst template to download (0 to cancel):"
+  print -u2 "Select a Typst template to download (0 to cancel):"
   local PS3="Enter choice: "
 
   select template in "${templates[@]}"; do
-    [[ $REPLY == 0 ]] && { echo "Cancelled."; exit 0; }
+    [[ $REPLY == 0 ]] && { echo "Cancelled." >&2; exit 0; }
     if [[ -n "${template:-}" ]]; then
       echo "$template"
       return 0
     else
-      print "Invalid choice, try again."
+      print -u2 "Invalid choice, try again."
     fi
   done
 }
 
 download_template() {
   local template="$1"
-  local url="${RAW_BASE}/${template}"
-
-  echo "Downloading ${template} to $(pwd)..."
-
-  # Use sensible timeouts for download; tweak as needed for slow connections.
-  if ! curl ${=CURL_OPTS} -fL --progress-bar \
-      --connect-timeout 5 --max-time 120 \
-      "$url" -o "$template"; then
-    echo
-    echo "Download failed. Please check your network to GitHub / raw.githubusercontent.com." >&2
-    exit 1
+  local files=("$template")
+  if [[ "$template" == "short_note.typ" ]]; then
+    files+=("short-note-style.typ")
   fi
+
+  local file
+  for file in "${files[@]}"; do
+    echo "Downloading ${file} to $(pwd)..."
+    if ! curl ${=CURL_OPTS} -fL --progress-bar \
+        --connect-timeout 5 --max-time 120 \
+        "${RAW_BASE}/${file}" -o "$file"; then
+      echo "Download failed: ${file}. Check GitHub / raw.githubusercontent.com." >&2
+      exit 1
+    fi
+  done
 
   echo
   echo "Done."
@@ -94,6 +97,7 @@ main() {
 
   local choice
   choice="$(choose_template "${templates[@]}")"
+  [[ -z "$choice" ]] && return 0
   download_template "$choice"
 }
 
